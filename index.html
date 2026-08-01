@@ -13,176 +13,137 @@
         }
         .lapisan {
             position:absolute;inset:0;
-            background:rgba(5,10,30,.75);z-index:0;
+            background:rgba(15,25,50,.6);z-index:0;
         }
-        /* Efek api jatuh menyala */
-        .partikel-api {
+        /* Partikel jatuh */
+        .partikel {
             position:absolute;top:-20px;z-index:2;pointer-events:none;
-            animation:jatuhApi linear forwards;
+            animation:jatuh linear forwards;
             font-size:18px;
-            filter:drop-shadow(0 0 8px #ff7722) drop-shadow(0 0 15px #ff4400);
         }
-        @keyframes jatuhApi {
-            to {transform:translateY(105vh) rotate(40deg);opacity:.5;}
+        .api {filter:drop-shadow(0 0 8px #ff7722) drop-shadow(0 0 15px #ff4400);}
+        .es {filter:drop-shadow(0 0 8px #aaddff) drop-shadow(0 0 15px #66ccff);}
+        .teks-fahri {
+            font-family:Georgia,Copperplate,serif;font-weight:bold;font-style:italic;
+            color:#ffdd22;text-shadow:0 0 6px #ff6600,0 0 12px #ff2200,1px 1px 2px #000;
         }
-        /* Gaya tombol biru menyala */
-        .layar-awal {
-            position:fixed;inset:0;background:rgba(5,10,30,.95);z-index:100;
-            display:flex;flex-direction:column;align-items:center;justify-content:center;gap:25px;
-            transition:opacity 1s ease,visibility 1s;
-        }
-        .layar-awal.sembunyi {opacity:0;visibility:hidden;}
+        @keyframes jatuh {to{transform:translateY(105vh) rotate(35deg);opacity:.7;}}
+
+        /* Layar */
+        .layar {position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;padding:15px;background:rgba(20,35,70,.85);transition:opacity .4s ease,visibility .4s ease;}
+        .layar.sembunyi {opacity:0;visibility:hidden;}
+        .layar.aktif {opacity:1;visibility:visible;}
+
+        /* Tombol BIRU MENYALA */
         .tombol {
-            background:linear-gradient(45deg,#0066cc,#00aaff);color:#fff;border:none;
-            padding:12px 28px;font-size:1rem;border-radius:50px;cursor:pointer;
-            box-shadow:0 0 18px rgba(0,136,255,.6);transition:transform .2s;
-            margin: 6px;
+            position:relative;border:none;padding:12px 28px;font-size:1rem;border-radius:50px;
+            cursor:pointer;transition:transform .12s ease;margin:12px 6px 22px;
+            z-index:10;outline:none;
+            background:linear-gradient(45deg,#1a5ccc,#2a88ee);color:#fff;
+            box-shadow:0 0 20px rgba(50,130,255,.55);
         }
-        .tombol:active{transform:scale(.95);}
-        .tombol-merah {background:linear-gradient(45deg,#cc3333,#ff5544);box-shadow:0 0 12px rgba(255,80,80,.5);}
-        .tombol-hijau {background:linear-gradient(45deg,#22aa44,#44dd77);box-shadow:0 0 12px rgba(60,220,100,.5);}
+        .tombol:active {transform:scale(.92);}
+        .tombol::before {
+            content:"";position:absolute;inset:-4px;border-radius:50px;
+            background:radial-gradient(circle,#77bbff,#2a77ee,transparent 70%);
+            opacity:.7;filter:blur(4px);animation:nyalaBiru .8s infinite alternate;z-index:-1;
+            pointer-events:none;
+        }
+        @keyframes nyalaBiru {from{opacity:.6;transform:scale(1);}to{opacity:.9;transform:scale(1.05);}}
+        /* Tetes darah */
+        .tetes {position:absolute;left:25%;bottom:-12px;width:6px;height:10px;background:linear-gradient(#900,#f22);border-radius:0 0 6px 6px;filter:blur(.5px);animation:darah 1.2s infinite ease-in;pointer-events:none;}
+        .tetes:nth-child(2){left:50%;animation-delay:.3s;}
+        .tetes:nth-child(3){left:75%;animation-delay:.6s;}
+        @keyframes darah {0%{height:10px;opacity:.9;bottom:-12px;}70%{height:14px;opacity:.7;}100%{height:2px;opacity:0;bottom:-30px;}}
 
-        /* Konten & Kartu tema gelap-biru */
-        .konten {
-            max-width:360px;margin:0 auto;position:relative;z-index:10;
-            opacity:0;transform:translateY(20px);transition:all 1s ease;padding:20px 15px;
-            display:none;
-        }
-        .konten.tampil {opacity:1;transform:translateY(0);display:block;}
-        .card {
-            background:rgba(10,20,50,.68);backdrop-filter:blur(10px);
-            padding:20px;border-radius:18px;border:1px solid rgba(0,120,255,.35);
-            line-height:1.7;
-            box-shadow:0 0 16px rgba(0,100,200,.25);
-        }
-        .tanya {color:#99ddff;font-size:1.1rem;margin:15px 0;line-height:1.6;}
-        .keterangan {color:#88ccff;font-size:.95rem;margin-bottom:12px;line-height:1.4;}
-        .jawab {
-            padding:10px;font-size:.95rem;border-radius:8px;border:none;
-            width:85%;max-width:260px;margin:10px 0;
-            background:rgba(255,255,255,.9);color:#002244;
-        }
-        .hasil {font-size:1rem;margin-top:12px;line-height:1.6;color:#cceeff;}
+        .tombol-merah {background:linear-gradient(45deg,#900,#d22);box-shadow:0 0 18px rgba(220,50,50,.45);}
+        .tombol-merah::before {background:radial-gradient(circle,#ff7777,#dd2222,transparent 70%);animation-name:nyalaApiMerah;}
+        @keyframes nyalaApiMerah {from{opacity:.6;transform:scale(1);}to{opacity:.9;transform:scale(1.05);}}
 
-        /* PUZZLE KECIL & PAS LAYAR HP */
-        .wadah-puzzle {margin:12px auto;max-width:240px;}
-        .area-tujuan {
-            display:grid;grid-template-columns:repeat(3, 1fr);gap:3px;
-            background:rgba(255,255,255,.15);padding:5px;border-radius:8px;margin-bottom:10px;
-            width:240px;height:240px;
-        }
-        .area-sumber {
-            display:flex;flex-wrap:wrap;gap:3px;justify-content:center;
-            background:rgba(255,255,255,.1);padding:5px;border-radius:8px;min-height:84px;
-            max-width:240px;
-        }
-        .tempat-kosong {
-            width:76px;height:76px;border-radius:4px;border:2px dashed rgba(255,255,255,.5);background:rgba(0,0,0,.25);
-        }
-        .keping {
-            width:76px;height:76px;border-radius:4px;cursor:grab;
-            background-image:url("foto-puzzle.jpg");
-            background-size:240px 240px;
-            background-repeat:no-repeat;
-            user-select:none;box-shadow:0 0 4px #000;
-            border:1px solid rgba(255,255,255,.2);
-        }
-        .keping:active {cursor:grabbing;}
+        .card {background:rgba(40,60,100,.75);backdrop-filter:blur(8px);padding:20px;border-radius:18px;border:1px solid rgba(100,180,255,.4);width:min(330px,95%);}
+        .tanya {color:#cce6ff;font-size:1.1rem;margin-bottom:8px;line-height:1.5;}
+        .keterangan-tambahan {color:#b3d8ff;font-size:.95rem;margin-bottom:15px;line-height:1.4;}
+        .jawab {width:100%;padding:11px;font-size:1rem;border-radius:8px;border:none;background:#ffffff;color:#002255;margin-bottom:10px;outline:none;}
+        .hasil {margin-top:10px;color:#e0eeff;min-height:24px;font-weight:500;}
+        .pesan-merah {color:#ff4444;font-weight:bold;transition:opacity .3s;}
+        .pesan-hijau {color:#44ff66;font-weight:bold;transition:opacity .3s;}
+        .teks-pesan {color:#e6eeff;font-size:1.1rem;line-height:1.6;margin:15px 0;}
+
+        .wadah-puzzle {display:grid;grid-template-columns:repeat(3,76px);gap:3px;margin:10px auto;justify-content:center;position:relative;}
+        .tempat-kosong {width:76px;height:76px;border-radius:4px;border:2px dashed rgba(180,210,255,.6);background:rgba(25,45,90,.6);display:flex;align-items:center;justify-content:center;font-size:.8rem;}
+        .keping {width:76px;height:76px;border-radius:4px;background:url("foto-puzzle.png") center/240px no-repeat;cursor:grab;box-shadow:0 0 4px rgba(0,0,0,.25);}
     </style>
 </head>
 <body>
     <div class="lapisan"></div>
 
     <script>
-        // Efek api jatuh menyala
-        function buatApi(){
-            const el = document.createElement('div');
-            el.className='partikel-api';
-            el.innerText = ['🔥','✨','💥'][Math.floor(Math.random()*3)];
-            el.style.left = Math.random()*100+'%';
-            el.style.fontSize = (Math.random()*16+10)+'px';
-            el.style.animationDuration = (Math.random()*4+2.5)+'s';
-            document.body.appendChild(el);
-            setTimeout(()=>el.remove(),7000);
-        }
-        setInterval(buatApi,280);
+        // Suara klik
+        function bunyiKlik(){try{const a=new(window.AudioContext||window.webkitAudioContext)();const o=a.createOscillator(),g=a.createGain();o.connect(g);g.connect(a.destination);o.type='sine';o.frequency.setValueAtTime(650,a.currentTime);o.frequency.exponentialRampToValueAtTime(500,a.currentTime+.08);g.gain.setValueAtTime(.4,a.currentTime);g.gain.exponentialRampToValueAtTime(.01,a.currentTime+.12);o.start();o.stop(a.currentTime+.12);}catch(e){}}
+        // Partikel
+        setInterval(()=>{const e=document.createElement('div');e.className='partikel';let r=Math.random();e.className+=r<.35?' api':r<.7?' es':' teks-fahri';e.innerText=r<.35?'🔥':r<.7?'❄️':'fahri';e.style.left=Math.random()*100+'%';e.style.fontSize=(Math.random()*18+12)+'px';e.style.animationDuration=(Math.random()*4.5+2)+'s';document.body.appendChild(e);setTimeout(()=>e.remove(),7000);},200);
+        // Tambah tetes darah otomatis
+        document.addEventListener('DOMContentLoaded',()=>document.querySelectorAll('.tombol').forEach(b=>{for(let i=0;i<3;i++){const t=document.createElement('span');t.className='tetes';b.appendChild(t);}}));
 
-        // Fungsi keluar halaman
-        function keluarSitus(){
-            window.open('','_self');
-            window.close();
+        // Hapus pesan otomatis 3 detik
+        function pesanSementara(el, teks, kelas){
+            el.innerHTML = `<span class="${kelas}">${teks}</span>`;
+            setTimeout(()=>el.innerHTML="",3000);
         }
     </script>
 
-    <!-- Layar Awal -->
-    <div class="layar-awal" id="layarAwal">
-        <p style="font-size:1.2rem;color:#88ccff;">pencet buka, nek ora tak pancal</p>
-        <button class="tombol" onclick="bukaAwal()">Buka</button>
+    <!-- LAYAR UTAMA -->
+    <div id="layarAwal" class="layar aktif">
+        <p>pencet buka, nek ora tak pancal</p>
+        <button class="tombol" onclick="bukaAwal();bunyiKlik();">Buka</button>
     </div>
 
-    <!-- Pertanyaan Nama -->
-    <div class="konten" id="bagianNama">
+    <!-- LAYAR NAMA -->
+    <div id="layarNama" class="layar sembunyi">
         <div class="card">
             <div class="tanya">Nama mu sopo?</div>
             <input type="text" id="inputNama" class="jawab" placeholder="Ketik namamu...">
-            <br>
-            <button class="tombol" onclick="lanjutNama()">Lanjut</button>
+            <div class="hasil" id="hasilNama"></div>
+            <button class="tombol" onclick="lanjutNama();bunyiKlik();">Lanjut</button>
         </div>
     </div>
 
-    <!-- Pertanyaan Kenal Fahri? -->
-    <div class="konten" id="bagianTanya">
+    <!-- LAYAR TANYA -->
+    <div id="layarTanya" class="layar sembunyi">
         <div class="card">
-            <div class="tanya" id="teksTanyaKenal"></div>
-            <div class="keterangan">Fahri loh seng baik, sopan, lan suka membantu iki</div>
-            <input type="text" id="inputKenal" class="jawab" placeholder="Jawab: iya/kenal / ga/tidak/ora">
-            <br>
-            <button class="tombol" onclick="cekJawabKenal()">Kirim Jawaban</button>
-            <div id="hasilKenal" class="hasil"></div>
+            <div class="tanya" id="teksTanya"></div>
+            <div class="keterangan-tambahan">fahri seng gagah perkoso, sopan, baik, lan suka menolong iki loh</div>
+            <input type="text" id="inputTanya" class="jawab" placeholder="Jawab: iya/kenal / ga/tidak/ora">
+            <div class="hasil" id="hasilTanya"></div>
+            <button class="tombol" onclick="cekJawab();bunyiKlik();">Kirim Jawaban</button>
         </div>
     </div>
 
-    <!-- Tebak Nama Lengkap -->
-    <div class="konten" id="bagianTebak">
+    <!-- LAYAR JIKA TIDAK KENAL -->
+    <div id="layarTidakKenal" class="layar sembunyi">
+        <div class="card">
+            <div class="teks-pesan">yowes nek ora kenal, cari tau sek sono, mengko mrene maneh</div>
+            <button class="tombol tombol-merah" onclick="window.open('','_self');window.close();bunyiKlik();">Tutup / Metu</button>
+        </div>
+    </div>
+
+    <!-- LAYAR TEBAK -->
+    <div id="layarTebak" class="layar sembunyi">
         <div class="card">
             <div class="tanya">Nama lengkap ku sopo?</div>
             <input type="text" id="inputTebak" class="jawab" placeholder="Ketik jawabanmu...">
-            <br>
-            <button class="tombol" onclick="cekJawabTebak()">Kirim Jawaban</button>
-            <div id="hasilTebak" class="hasil"></div>
+            <div class="hasil" id="hasilTebak"></div>
+            <button class="tombol" onclick="cekTebak();bunyiKlik();">Kirim Jawaban</button>
         </div>
     </div>
 
-    <!-- Permainan Puzzle Gambar KECIL & PAS + Tombol Selesai -->
-    <div class="konten" id="bagianPuzzle">
+    <!-- LAYAR PUZZLE -->
+    <div id="layarPuzzle" class="layar sembunyi">
         <div class="card">
             <div class="tanya">Susun potongan gambar dadi pas kabeh!</div>
-            <div class="wadah-puzzle">
-                <div class="area-tujuan" id="areaTujuan">
-                    <div class="tempat-kosong" data-pos="0"></div>
-                    <div class="tempat-kosong" data-pos="1"></div>
-                    <div class="tempat-kosong" data-pos="2"></div>
-                    <div class="tempat-kosong" data-pos="3"></div>
-                    <div class="tempat-kosong" data-pos="4"></div>
-                    <div class="tempat-kosong" data-pos="5"></div>
-                    <div class="tempat-kosong" data-pos="6"></div>
-                    <div class="tempat-kosong" data-pos="7"></div>
-                    <div class="tempat-kosong" data-pos="8"></div>
-                </div>
-                <div class="area-sumber" id="areaSumber"></div>
-            </div>
-            <div id="pesanPuzzle" class="hasil"></div>
-            <!-- Tombol selesai muncul otomatis -->
-            <div id="tombolSelesai"></div>
-        </div>
-    </div>
-
-    <!-- Halaman Akhir (opsional, bisa dihapus jika mau langsung keluar) -->
-    <div class="konten" id="bagianAkhir">
-        <div class="card">
-            <div class="tanya">wahh pinterr nemen anak iki, jan anak e sopo si koe? nah wes mono metu zohh zohh</div>
-            <br>
-            <button class="tombol tombol-merah" onclick="keluarSitus()">🚪 Metu / Selesai</button>
+            <div class="wadah-puzzle" id="puzzle"></div>
+            <div class="hasil" id="pesanPuzzle"></div>
+            <div id="tmbSelesai"></div>
         </div>
     </div>
 
@@ -190,127 +151,102 @@
         let namaPengguna = "";
 
         function bukaAwal(){
-            document.getElementById('layarAwal').classList.add('sembunyi');
-            document.getElementById('bagianNama').classList.add('tampil');
+            layarSembunyiSemua();
+            document.getElementById('layarNama').classList.add('aktif');
         }
 
         function lanjutNama(){
-            namaPengguna = document.getElementById('inputNama').value.trim();
-            if(!namaPengguna) { alert("Isi dulu namamu ya!"); return; }
-
-            document.getElementById('bagianNama').classList.remove('tampil');
-            const bagianTanya = document.getElementById('bagianTanya');
-            bagianTanya.classList.add('tampil');
-            document.getElementById('teksTanyaKenal').innerText = `Haii ${namaPengguna}, koe kenal Fahri rak??`;
-            document.getElementById('hasilKenal').innerHTML = "";
-            document.getElementById('inputKenal').value = "";
+            const v = document.getElementById('inputNama').value.trim();
+            if(!v) return document.getElementById('hasilNama').textContent = "Isi dulu namamu ya!";
+            namaPengguna = v;
+            layarSembunyiSemua();
+            document.getElementById('teksTanya').innerText = `Haii ${namaPengguna}, koe kenal Fahri rak??`;
+            document.getElementById('layarTanya').classList.add('aktif');
         }
 
-        function cekJawabKenal(){
-            const jawab = document.getElementById('inputKenal').value.trim().toLowerCase();
-            const wadah = document.getElementById('hasilKenal');
-
-            if(["ga","tidak","ora","nggak"].includes(jawab)){
-                wadah.innerHTML = `
-                    yowes nek ora kenal<br><br>
-                    <button class="tombol" onclick="lanjutNama()">🔄 Ulangi</button>
-                `;
-            }else if(["iya","kenal","yaa","iyya"].includes(jawab)){
-                wadah.innerHTML = `
-                    owhh kenal ya, oke aku cuma mau pamer aja wkwkw<br><br>
-                    <button class="tombol" onclick="masukTebak()">➡️ Lanjut</button>
-                `;
+        function cekJawab(){
+            const j = document.getElementById('inputTanya').value.trim().toLowerCase();
+            if(["ga","tidak","ora","nggak"].includes(j)){
+                layarSembunyiSemua();
+                document.getElementById('layarTidakKenal').classList.add('aktif');
+            }else if(["iya","kenal","yaa","iyya"].includes(j)){
+                layarSembunyiSemua();
+                document.getElementById('layarTebak').classList.add('aktif');
             }else{
-                wadah.innerHTML = `<span style="color:#88ccff;">Jawab dengan kata yang jelas ya 😊</span>`;
+                document.getElementById('hasilTanya').textContent = "Jawab dengan jelas ya!";
             }
         }
 
-        function masukTebak(){
-            document.getElementById('bagianTanya').classList.remove('tampil');
-            const bagianTebak = document.getElementById('bagianTebak');
-            bagianTebak.classList.add('tampil');
-            document.getElementById('inputTebak').value = "";
-            document.getElementById('hasilTebak').innerHTML = "";
-            document.getElementById('tombolSelesai').innerHTML = "";
-        }
-
-        function cekJawabTebak(){
-            const jawab = document.getElementById('inputTebak').value.trim().toLowerCase();
-            const wadah = document.getElementById('hasilTebak');
-
-            if(jawab === "fahri zainul umam"){
-                wadah.innerHTML = `nahh bener epok<br><br>
-                    <button class="tombol tombol-hijau" onclick="masukPuzzle()">➡️ Lanjut menyang Puzzle</button>`;
+        function cekTebak(){
+            const j = document.getElementById('inputTebak').value.trim().toLowerCase();
+            if(j === "fahri zainul umam"){
+                layarSembunyiSemua();
+                bukaPuzzle();
+                document.getElementById('layarPuzzle').classList.add('aktif');
             }else{
-                wadah.innerHTML = `wah wah ora reti toh? jajal cari tau sek, mengko mrene maneh<br><br>
-                    <button class="tombol tombol-merah" onclick="masukTebak()">🔄 Ulangi Coba Maneh</button>`;
+                document.getElementById('hasilTebak').innerHTML = `<br>Salah, coba lagi ya<br><br><button class="tombol tombol-merah" onclick="cekTebak();bunyiKlik();">Coba Lagi</button>`;
+                setTimeout(()=>document.querySelectorAll('#hasilTebak .tombol').forEach(b=>{for(let i=0;i<3;i++){const t=document.createElement('span');t.className='tetes';b.appendChild(t);}}),50);
             }
         }
 
-        // Inisialisasi Puzzle Ukuran Kecil Pas HP
+        function layarSembunyiSemua(){
+            document.querySelectorAll('.layar').forEach(l=>{l.classList.remove('aktif');l.classList.add('sembunyi');});
+        }
+
+        // Puzzle dengan pesan merah/hijau & gambar PNG
         let kepingTarik = null;
+        const gambarPuzzle = new Image();
+        gambarPuzzle.src = "foto-puzzle.png";
+        gambarPuzzle.onerror = function(){
+            alert("Gambar foto-puzzle.png tidak ditemukan! Pastikan ada di folder yang sama.");
+        };
 
-        function masukPuzzle(){
-            document.getElementById('bagianTebak').classList.remove('tampil');
-            const bagianPuzzle = document.getElementById('bagianPuzzle');
-            bagianPuzzle.classList.add('tampil');
-            document.getElementById('pesanPuzzle').innerHTML = "";
-            document.getElementById('tombolSelesai').innerHTML = "";
-
-            const areaSumber = document.getElementById('areaSumber');
-            areaSumber.innerHTML = "";
-
-            // Acak posisi kepingan
-            let posisi = [0,1,2,3,4,5,6,7,8].sort(()=>Math.random()-0.5);
-
-            posisi.forEach(indeks=>{
-                const kotak = document.createElement('div');
-                kotak.className = "keping";
-                kotak.draggable = true;
-                kotak.dataset.urutan = indeks;
-                const baris = Math.floor(indeks / 3);
-                const kolom = indeks % 3;
-                // Posisi latar pas ukuran 76px per kotak, total 240px gambar
-                kotak.style.backgroundPosition = `${kolom * -76}px ${baris * -76}px`;
-
-                kotak.addEventListener('dragstart', e=>{
-                    kepingTarik = kotak;
-                    e.dataTransfer.effectAllowed='move';
-                });
-                kotak.addEventListener('dragend', ()=>kepingTarik=null);
-                areaSumber.appendChild(kotak);
-            });
-
-            // Atur tempat tujuan
-            document.querySelectorAll('.tempat-kosong').forEach(tempat=>{
-                tempat.innerHTML = "";
-                tempat.addEventListener('dragover',e=>e.preventDefault());
-                tempat.addEventListener('drop',e=>{
+        function bukaPuzzle(){
+            const p = document.getElementById('puzzle');
+            const pesanBox = document.getElementById('pesanPuzzle');
+            p.innerHTML = ""; pesanBox.innerHTML = "";
+            let urut = [0,1,2,3,4,5,6,7,8].sort(()=>Math.random()-.5);
+            // Tempat kosong
+            for(let i=0;i<9;i++){
+                const t = document.createElement('div');
+                t.className='tempat-kosong';t.dataset.urutan=i;
+                t.addEventListener('dragover',e=>e.preventDefault());
+                t.addEventListener('drop',e=>{
                     e.preventDefault();
-                    if(!kepingTarik || tempat.children.length>0) return;
-                    if(kepingTarik.dataset.urutan === tempat.dataset.pos){
-                        tempat.appendChild(kepingTarik);
-                        cekSelesaiPuzzle();
+                    if(!kepingTarik) return;
+                    if(t.children.length>0){
+                        pesanSementara(pesanBox, "ruang sudah di isi", "pesan-merah");
+                        return;
+                    }
+                    if(t.dataset.urutan === kepingTarik.dataset.urutan){
+                        t.appendChild(kepingTarik);
+                        pesanSementara(pesanBox, "okehh", "pesan-hijau");
+                        cekSelesai();
+                    }else{
+                        pesanSementara(pesanBox, "belum pas, coba lagi", "pesan-merah");
                     }
                 });
+                p.appendChild(t);
+            }
+            // Keping acak
+            urut.forEach(u=>{
+                const k = document.createElement('div');
+                k.className='keping';k.draggable=true;k.dataset.urutan=u;
+                k.style.backgroundPosition = `${-(u%3)*76}px ${-Math.floor(u/3)*76}px`;
+                k.addEventListener('dragstart',()=>kepingTarik=k);
+                k.addEventListener('dragend',()=>kepingTarik=null);
+                p.appendChild(k);
             });
         }
 
-        function cekSelesaiPuzzle(){
-            const semuaBenar = Array.from(document.querySelectorAll('.tempat-kosong'))
-                .every(t=>t.children.length>0);
-            if(semuaBenar){
-                document.getElementById('pesanPuzzle').innerHTML = "Puzzle wis rampung kabeh!";
-                // Muncul tombol Selesai langsung keluar situs
-                document.getElementById('tombolSelesai').innerHTML = `
-                    <br>
-                    <button class="tombol tombol-merah" onclick="keluarSitus()">✅ Selesai / Metu</button>
-                `;
-                // Jika mau otomatis masuk tulisan akhir ganti baris di atas dengan ini:
-                // setTimeout(()=>{ document.getElementById('bagianPuzzle').classList.remove('tampil'); document.getElementById('bagianAkhir').classList.add('tampil'); },700);
+        function cekSelesai(){
+            const semua = Array.from(document.querySelectorAll('.tempat-kosong')).every(t=>t.children.length>0);
+            if(semua){
+                document.getElementById('pesanPuzzle').innerHTML = "<br>✅ Puzzle wis rampung kabeh!";
+                document.getElementById('tmbSelesai').innerHTML = `<br><button class="tombol tombol-merah" onclick="window.open('','_self');window.close();bunyiKlik();">✅ Selesai / Metu</button>`;
+                setTimeout(()=>document.querySelectorAll('#tmbSelesai .tombol').forEach(b=>{for(let i=0;i<3;i++){const t=document.createElement('span');t.className='tetes';b.appendChild(t);}}),50);
             }
         }
     </script>
 </body>
-  </html>
-
+</html>
